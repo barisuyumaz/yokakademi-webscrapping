@@ -3,41 +3,28 @@ from bs4 import  BeautifulSoup, NavigableString
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
-#from deneme_akademisyenbilgi import get_info
 import csv
 from selenium.webdriver.common.by import By
 
 
-path = "C:/Users/baris/Desktop/level_1_yokakademi2.txt"
+path = "C:/Users/baris/Desktop/level_1_yokakademi2.txt" #you should change with your path
 
-#eskihali
-"""
-link_pt1 = "https://akademik.yok.gov.tr"
-
-uniurl= "https://akademik.yok.gov.tr/AkademikArama/view/universityListview.jsp"
-r = requests.get(uniurl,verify=False)
-soup = BeautifulSoup(r.content,"html.parser")
-data = soup.find_all("tbody",{"class":"searchable"})[0].find_all("tr")
-"""
-#-----------
+#Urls of all Turkish universities
 uniurl= "https://akademik.yok.gov.tr/AkademikArama/view/universityListview.jsp"
 
 link_pt1 = "https://akademik.yok.gov.tr"
 
 r = requests.get(uniurl,verify=False)
 soup = BeautifulSoup(r.content,"html.parser")
-data_unis = soup.find("tbody",{"class":"searchable"}).find_all("tr")#tüm ünilerin listesi
+data_unis = soup.find("tbody",{"class":"searchable"}).find_all("tr")#list of all universities
 
 data = []
 for i in data_unis:
     data.append(link_pt1+i.find_all("a")[0]['href'])
-#-------------burada datamızı elde ettik yeni hali
+#-------------
 
 
-
-#url = 'https://akademik.yok.gov.tr/AkademikArama/AkademisyenArama?islem=bbbw3WKNaGM2LpwWIGtw8ap3rDF43Rca2k5Rq5hM-67KRkLi5eSVnKbktSdmDPA1' #örnk üni
-
-
+#Arranging chromdriver
 width = 1024
 height = 768
 
@@ -74,21 +61,16 @@ chrome_options.add_experimental_option(
     }
 )
 
-# driver = webdriver.Chrome('/usr/bin/chromedriver', options=chrome_options)
-
 driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
 driver.set_page_load_timeout(1000)  # Timeout 10 seconds
+#-------------
 
 
-#url = 'https://akademik.yok.gov.tr/AkademikArama/AkademisyenGorevOgrenimBilgileri?islem=direct&authorId=667FEAA8146EDF0D'
+#FUNCTIONS
 def get_info(soup):
-
-    #r = requests.get(url)
-    #soup = BeautifulSoup(r.content,"html.parser")
     data = soup.find_all("div",{"class":"col-md-6"}) #3data var ilki profili, ikincisi akademik görevler, 3. öğrenim bilgisi
 
     #---------------------BÖLÜM 1 KİŞİSEL BİLGİLER
-    #print("#######KİŞİSEL BİLGİLER#######")
     try:
         profil_data = data[0].find("td")
         #---LVL 3'e dahil değil
@@ -201,10 +183,6 @@ def get_info(soup):
                 liste.append("")
 
 
-
-
-
-
             #----------------------BÖLÜM 3 ÖĞRENİM BİLGİSİ
             #print("#######ÖĞRENİM BİLGİSİ#######")
             ogr_bilgisi = data[2].find_all("li")
@@ -312,10 +290,6 @@ def get_teachers():
         soup = BeautifulSoup(pageSource,"html.parser")
         get_info(soup)
         driver.back()
-        #get_info(pageSource)
-        #pages = driver.find_element_by_xpath('//*[@id="authorInfo_'+j+'"]/td[3]/h4/a')
-        #print(pages,type(pages))
-    #print("----------------------------------------")
 
 def get_pages():
     global alar
@@ -334,15 +308,12 @@ def search_pages(start,pages):
         #print(sayfa_sayi)
 
 
-
-start = 45 #en son bitlis ünideydi(boğaziçi satırlarını sildim) boğaziçinden başlayacak, boğaziçi 45. indexte
+#MAIN
+start = 0 #if you don't wanna finish the getting datas at once, you can continue from your last point with this variable
 for index, i in enumerate(data[start:]):
-    print("%"+str(int((start+index)*(100/len(data))))) #datanın yüzde kaçı çekilmiş 
-
-    #link_pt2 = i.find_all("a")[0]['href']#eski kod
+    print("%"+str(int((start+index)*(100/len(data))))) #what percentage has been obtained
 
     driver.get(i)
-    #üniye özel sfya girdik, ilk 10luk tayız şu an
 
     if(11 != len(get_pages())):
         get_teachers()
@@ -354,19 +325,9 @@ for index, i in enumerate(data[start:]):
         get_pages()
         get_teachers()
         sayfa_sayi += 1
-        #print(sayfa_sayi)
-
-
-        #ilk sfya geldik hocaları aldık
-
 
         search_pages(1,get_pages())
 
-        #ilk onluğu dolaşıyor ve 2. onluğun ilk sf sınıda alıyor
-
-
-
-        #bu kısım 12 hrefi olmayan 10luların elsesi olcak
         get_pages()
 
         while(len(alar) == 12):
