@@ -1,4 +1,4 @@
-# Scrapping All Turkish Universities and Academic Staff
+# Web Scrapping Python-Selenium Library Obtaining  All Turkish Universities and Academic Staffs' Datas
 You can get academic staff's past, education, thesis, fields in a .csv file and open it on Excel. 
 (It's just for voluntary research, not for malicious or commercial purposes)
 
