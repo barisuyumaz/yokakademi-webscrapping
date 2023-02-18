@@ -3,7 +3,7 @@ You can get academic staff's past, education, thesis, fields in a .csv file and 
 (It's just for voluntary research, not for malicious or commercial purposes)
 
 ## How it works?
-* You should install requires Python libraries.
+* You should install required Python libraries.
   ```python
   import requests
   from bs4 import  BeautifulSoup, NavigableString
