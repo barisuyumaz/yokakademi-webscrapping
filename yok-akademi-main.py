@@ -7,7 +7,7 @@ import csv
 from selenium.webdriver.common.by import By
 
 
-path = "C:/Users/baris/Desktop/level_1_yokakademi2.txt" #you should change with your path
+path = "level_1_yokakademi2.txt" #you should change with your path
 
 #Urls of all Turkish universities
 uniurl= "https://akademik.yok.gov.tr/AkademikArama/view/universityListview.jsp"
