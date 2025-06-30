@@ -6,6 +6,18 @@ This project scrapes data about academic staff from all universities in Turkey u
 
 ---
 
+## 🐍 Tech Stack
+
+- **Python Version:** 3.x
+- **Technologies & Libraries Used:**
+  - `requests` — for fetching the university list from YÖK's official site
+  - `beautifulsoup4` — for parsing and extracting data from HTML content
+  - `selenium` — for browser automation and navigating JavaScript-rendered academic profile pages
+  - `webdriver-manager` — for automatically downloading and managing the correct ChromeDriver version
+  - `csv` — for writing structured data to a text file in a tabular format
+  - `datetime` & `time` — for managing delays, timeouts, and script flow
+
+
 ## ⚙️ How it Works
 
 1. The script (`yok-akademi-main.py`) first retrieves all universities listed on the YÖK Academic portal.
